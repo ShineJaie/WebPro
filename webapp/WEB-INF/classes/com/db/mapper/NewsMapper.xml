@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.mapper.NewsMapper">
+
+    <select id="selectAll" parameterType="int" resultType="News">
+      select * from news order by id desc limit #{0}, #{1}
+    </select>
+
+    <select id="selectAllCount" resultType="int">
+      select count(1) from news
+    </select>
+
+    <select id="selectNews" parameterType="int" resultType="News">
+        select * from news where id = #{0}
+    </select>
+
+    <!--    <select id="selectClickNum" resultType="int">
+            update news set clicknum = clicknum + 1 where id = #{0};
+            select clicknum from news where id = #{0};
+        </select>-->
+
+    <select id="selectClickNum" resultType="int">
+        select clicknum from news where id = #{0};
+    </select>
+
+    <update id="updateClickNum" parameterType="int">
+        update news set clicknum = #{1} where id = #{0};
+    </update>
+
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- the application context definition for the springapp DispatcherServlet -->
+
+    <!-- 设置需要进行Spring注解扫描的类包, 通过该语句可以扫描 com.view com.view子包中的类 -->
+    <context:component-scan base-package="com.view,com.system,com.db"/>
+
+    <!-- 配置 springMVC 不拦截的静态资源 -->
+    <!-- 注解驱动, 必须加, 否则 RequestMapping 失效 -->
+    <mvc:annotation-driven/>
+    <!-- resource 下所有文件都映射到 /resource/ (*: 只处理文件夹下一级; **: 文件夹下多级) -->
+    <mvc:resources mapping="/resource/**" location="/resource/"/>
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
+    <!-- 表示上述配置的静态资源不属 viewResolver 解析 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- springMVC 拦截器 实现用户登录控制 -->
+    <!--配置拦截器, 多个拦截器,顺序执行 -->
+    <!--    <mvc:interceptors>
+            <mvc:interceptor>
+                &lt;!&ndash; 需拦截的地址  &ndash;&gt;
+                &lt;!&ndash; 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller &ndash;&gt;
+                <mvc:mapping path="/**"/>
+
+                &lt;!&ndash; 需排除拦截的地址 &ndash;&gt;
+                <mvc:exclude-mapping path="/unlogin/home"/>
+                <mvc:exclude-mapping path="/login2"/>
+                <mvc:exclude-mapping path="/login"/>
+                <mvc:exclude-mapping path="/register/**"/>
+                <mvc:exclude-mapping path="/common/**"/>
+                <mvc:exclude-mapping path="/test/**"/>
+                <mvc:exclude-mapping path="/resource/**"/>
+                <mvc:exclude-mapping path="/upload/**"/>
+                <bean class="com.system.bean.LoginInterceptor"/>
+                &lt;!&ndash; 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 &ndash;&gt;
+            </mvc:interceptor>
+        </mvc:interceptors>-->
+
+    <!-- 对模型视图名称的解析, 即在模型视图名称添加前后缀 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 淘宝 Druid 数据源配置 -->
+    <!-- 为监控而生的数据库连接池 -->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <!-- allowMultiQueries=true 配置数据源一次可以执行多条 sql 语句 -->
+        <property name="url" value="jdbc:mysql://localhost:3306/webpro?allowMultiQueries=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+
+        <property name="filters" value="stat"/>
+        <!--最大连接数量 -->
+        <property name="maxActive" value="20"/>
+        <!--初始连接数 -->
+        <property name="initialSize" value="5"/>
+    </bean>
+
+    <!-- MyBatis 配置一 -->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 配置淘宝数据源 Druid -->
+        <property name="dataSource" ref="druidDataSource"/>
+        <!-- 一堆 xml 文件，用来存放 sql 语句 -->
+        <property name="mapperLocations" value="classpath:com/db/mapper/**/*.xml"/>
+        <!-- 对应实体类所属的包名 -->
+        <property name="typeAliasesPackage" value="com.db.model"/>
+    </bean>
+
+    <!-- MyBatis 配置二 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.db.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+    </bean>
+
+    <!-- SpringMVC上传文件时, 需要配置MultipartResolver处理器 -->
+    <!-- 这样一旦某个 Request 是一个 MultipartRequest, 它就会首先被 MultipartResolver 处理，然后再转发相应的 Controller -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- setting maximum upload size -->
+        <!-- 指定所上传文件的总大小(单位为: Byte), 注意 maxUploadSize 属性的限制不是针对单个文件, 而是所有文件的容量之和 -->
+        <!-- 设置上传文件的最大尺寸为 10MB, 1GB=1024MB=1048576KB  -->
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="maxInMemorySize" value="100"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- AOP 实现, 打开 AspectJ -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 引入其它配置文件 -->
+    <import resource="classpath:/config/spring/*.xml"/>
+
+</beans>

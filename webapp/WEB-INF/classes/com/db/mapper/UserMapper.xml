@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.mapper.UserMapper">
+
+    <!-- 查询用户名是否唯一 -->
+    <select id="countUser" parameterType="Users" resultType="int">
+        select count(1) from users where username = #{username}
+    </select>
+
+    <!-- 新增用户 -->
+    <insert id="addUser" parameterType="Users">
+        <selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into users(createdate, modifydate, username, password, email, sex)
+        values(now(), now(), #{username}, #{password}, #{email}, #{sex})
+    </insert>
+
+</mapper>
