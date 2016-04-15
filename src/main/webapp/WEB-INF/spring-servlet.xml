@@ -8,11 +8,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.1.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- the application context definition for the springapp DispatcherServlet -->
 
-    <!-- 设置需要进行Spring注解扫描的类包, 通过该语句可以扫描 com.view com.view子包中的类 -->
+    <!-- 设置需要进行 Spring 注解扫描的类包, 通过该语句可以扫描 com.view,com.system,com.db子包中的类 -->
     <context:component-scan base-package="com.view,com.system,com.db"/>
 
     <!-- 配置 springMVC 不拦截的静态资源 -->
@@ -51,6 +52,10 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!-- 错误路径和错误页面，注意指定 viewResolver -->
+    <mvc:view-controller path="/404" view-name="/error/404"/>
+    <mvc:view-controller path="/500" view-name="/error/500"/>
 
     <!-- 淘宝 Druid 数据源配置 -->
     <!-- 为监控而生的数据库连接池 -->
@@ -95,8 +100,10 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <!-- AOP 实现, 打开 AspectJ -->
+    <!-- AOP 实现, 打开 AspectJ 启动对 @AspectJ 注解的支持 -->
     <aop:aspectj-autoproxy/>
+    <!--通知 spring 使用 cglib 而不是 jdk 的来生成代理方法 AOP 可以拦截到 Controller-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 引入其它配置文件 -->
     <import resource="classpath:/config/spring/*.xml"/>

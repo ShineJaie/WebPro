@@ -77,14 +77,14 @@ public class MyWebUtils implements ApplicationContextAware {
                 serverPort +
                 appName;
 
-        Map<String, Object> rst = new HashMap<String, Object>();
+        Map<String, Object> res = new HashMap<String, Object>();
 
-        rst.put("serverName", serverName);
-        rst.put("serverPort", serverPort);
-        rst.put("appName", appName);
-        rst.put("serverRootUri", serverRootUri);
+        res.put("serverName", serverName);
+        res.put("serverPort", serverPort);
+        res.put("appName", appName);
+        res.put("serverRootUri", serverRootUri);
 
-        return rst;
+        return res;
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.system.springsecurity.controller;
 
+import com.system.utils.MyWebUtils;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +32,11 @@ public class MainController {
      * @return page
      */
     @RequestMapping(value = {"/", "/home**"})
-    public ModelAndView defaultPage() {
+    public ModelAndView defaultPage() throws Exception {
+
+        if (true) {
+            throw new Exception("error.......");
+        }
 
         return new ModelAndView("home/home");
     }
@@ -49,14 +56,24 @@ public class MainController {
      *
      * @param error  用户名和密码错误时不为 null
      * @param logout 注销登录时不为 null
-     * @return
+     * @return 登录页面
      */
     @RequestMapping(value = "/login")
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-                              @RequestParam(value = "logout", required = false) String logout) {
+                              @RequestParam(value = "logout", required = false) String logout,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
 
         logger.info("---> user login...");
+
+        String status = MyWebUtils.dealWithNullVal(request.getParameter("status"));
+
         ModelAndView model = new ModelAndView();
+
+        if (status.equals("invalid")) {
+            model.addObject("error", "会话已经过期!");
+        }
+
         if (error != null) {
             model.addObject("error", "用户名或密码错误!");
         }
@@ -65,6 +82,8 @@ public class MainController {
             model.addObject("msg", "注销成功!");
         }
         model.setViewName("login");
+
+        response.setStatus(499); // 登录过期
 
         return model;
     }
@@ -92,12 +111,12 @@ public class MainController {
     /**
      * for 403 access denied page
      *
-     * @return 403页面
+     * @return 403 页面
      */
     @RequestMapping(value = "/403")
     public ModelAndView accesssDenied() {
 
-        ModelAndView model = new ModelAndView();
+        ModelAndView mv = new ModelAndView();
 
         //check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -105,11 +124,11 @@ public class MainController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
 
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            model.addObject("username", userDetail.getUsername());
+            mv.addObject("username", userDetail.getUsername());
         }
 
-        model.setViewName("403");
-        return model;
+        mv.setViewName("/error/403");
+        return mv;
     }
 
 }

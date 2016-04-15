@@ -54,6 +54,42 @@ define(['jquery', 'bootstrap'], function ($, bootstrap) {
         window.doHistory = true;
     };
 
+    /**
+     * jQuery.ajax 的全局配置<br/>
+     * statusCode 参数用来做这件事再好不过了, <br/>
+     * 而且重要的是, 即使 ajax 代码中禁用了全局配置(global:false),<br/>
+     * 关于 statusCode 的配置都仍然有效(这点对我们之前项目中来说很重要, 因为有很多的 ajax 都禁用了全局的遮罩效果)
+     */
+    var setAjaxSetup = function () {
+        console.log('init ajaxSetup');
+
+        $.ajaxSetup({
+            statusCode: {
+                500: function (jqXHR) {
+                    var htmlText = jqXHR.responseText;
+                    document.write(htmlText);
+                    document.close();
+
+                    window.history.pushState(null, null, "/WebPro/500");
+                    //window.location.href = url;
+                },
+                404: function (jqXHR) {
+                    var htmlText = jqXHR.responseText;
+                    document.write(htmlText);
+                    document.close();
+
+                    window.history.pushState(null, null, "/WebPro/404");
+                    //window.location.href = url;
+                },
+                499: function () {
+                    window.location.href='/WebPro/login?status=invalid';
+                }
+            }
+        });
+    };
+    setAjaxSetup();
+
+
     return {
         urlConfig: urlConfig,
         strTrim: strTrim,
