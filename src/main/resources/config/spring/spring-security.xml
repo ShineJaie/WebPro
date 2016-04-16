@@ -35,19 +35,19 @@
 
         <logout logout-success-url="/login?status=logout" delete-cookies="JSESSIONID"/>
 
-        <!-- session-authentication-error-url: 必须是不受 Spring Security 管理的(通过http元素设置其secure=”none”) -->
+        <!-- session-authentication-error-url: 必须是不受 Spring Security 管理的(通过http元素设置其secure="none") -->
         <!-- session-fixation-protection: session 固定攻击保护 -->
         <session-management invalid-session-url="/login?status=invalid"
                             session-authentication-error-url="/login?status=authenticationerror"
                             session-fixation-protection="migrateSession">
             <!--
-            当同一用户同时存在的已经通过认证的 sessio n数量超过了 max-sessions 所指定的值时, pring Security的默认策略是将先前的设为无效.
+            当同一用户同时存在的已经通过认证的 session 数量超过了 max-sessions 所指定的值时, pring Security的默认策略是将先前的设为无效.
             设置 error-if-maximum-exceeded 为 true 后如果你之前已经登录了, 然后想再次登录, 那么系统将会拒绝你的登录, 同时将重定向到由 form-login 指定的 authentication-failure-url,
             如果你的再次登录是通过 Remember-Me 来完成的, 那么将不会转到 authentication-failure-url,
             而是返回未授权的错误码401给客户端, 如果你还是想重定向一个指定的页面, 那么你可以通过 session-management 的 session-authentication-error-url 属性来指定,
             同时需要指定该 url 为不受 Spring Security 管理，即通过 http 元素设置其 secure="none"
             -->
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+            <concurrency-control max-sessions="20" error-if-maximum-exceeded="true"/>
         </session-management>
 
         <!-- enable remember me -->
@@ -70,7 +70,7 @@
     </beans:bean>
 
     <!-- Select users and user_roles from database -->
-    <authentication-manager>
+    <authentication-manager erase-credentials="false">
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=

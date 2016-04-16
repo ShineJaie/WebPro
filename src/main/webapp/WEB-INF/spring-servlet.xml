@@ -13,6 +13,8 @@
 
     <!-- the application context definition for the springapp DispatcherServlet -->
 
+    <context:property-placeholder location="classpath:/config/jdbc/jdbc.properties"/>
+
     <!-- 设置需要进行 Spring 注解扫描的类包, 通过该语句可以扫描 com.view,com.system,com.db子包中的类 -->
     <context:component-scan base-package="com.view,com.system,com.db"/>
 
@@ -60,11 +62,11 @@
     <!-- 淘宝 Druid 数据源配置 -->
     <!-- 为监控而生的数据库连接池 -->
     <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <!-- allowMultiQueries=true 配置数据源一次可以执行多条 sql 语句 -->
-        <property name="url" value="jdbc:mysql://localhost:3306/webpro?allowMultiQueries=true"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
 
         <property name="filters" value="stat"/>
         <!--最大连接数量 -->

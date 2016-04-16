@@ -50,10 +50,10 @@ define(['jquery', 'bootstrap', 'config', 'jquery.history', 'nprogress', 'sweetal
         };
 
         var runICheck = function () {
-            $('input:radio').on('ifChecked', function (event) {
+            $('input:radio').off('ifChecked').on('ifChecked', function (event) {
                 $(this).attr("param_value", true);
             });
-            $('input:radio').on('ifUnchecked', function (event) {
+            $('input:radio').off('ifUnchecked').on('ifUnchecked', function (event) {
                 $(this).attr("param_value", false);
             });
         };

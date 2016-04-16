@@ -13,6 +13,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="<c:url value='/resource/dependency/bootstrap/css/bootstrap.min.css'/>">
+    <link rel="stylesheet" href="<c:url value='/resource/dependency/icheck/skins/flat/blue.css'/>">
     <link rel="stylesheet" href="<c:url value='/resource/loginsrc/css/font-awesome.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/resource/loginsrc/css/form-elements.css'/>">
     <link rel="stylesheet" href="<c:url value='/resource/loginsrc/css/style.css'/>">
@@ -78,6 +79,17 @@
                                 <input type="password" name="password" placeholder="密码..."
                                        class="form-password form-control" id="form-password">
                             </div>
+
+                            <!-- if this is login for update, ignore remember me check -->
+                            <c:if test="${empty loginUpdate}">
+                                <div class="form-group">
+                                    <small class="remember-me-text text-info" for="remember-me">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp; 保存登录状态 :&nbsp;
+                                    </small>
+                                    <input type="checkbox" name="remember-me" id="remember-me" checked/>
+                                </div>
+                            </c:if>
+
                             <button type="submit" class="btn">登录</button>
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -112,12 +124,29 @@
 <!-- Javascript -->
 <script src="<c:url value='/resource/dependency/js/jquery.min.js'/>"></script>
 <script src="<c:url value='/resource/dependency/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/resource/dependency/icheck/icheck.min.js'/>"></script>
 <script src="<c:url value='/resource/loginsrc/js/jquery.backstretch.min.js'/>"></script>
 <script src="<c:url value='/resource/loginsrc/js/scripts.js'/>"></script>
 
 <!--[if lt IE 10]>
 <script src="<c:url value='/resource/loginsrc/js/placeholder.js'/>"></script>
 <![endif]-->
+
+<script>
+    $(document).ready(function () {
+        $('#remember-me').iCheck({
+            checkboxClass: 'icheckbox_flat-blue'
+        });
+
+        $('#remember-me').off('ifChecked').on('ifChecked', function (event) {
+            $('.remember-me-text').addClass('text-info');
+        });
+
+        $('#remember-me').off('ifUnchecked').on('ifUnchecked', function (event) {
+            $('.remember-me-text').removeClass('text-info');
+        });
+    });
+</script>
 
 </body>
 </html>

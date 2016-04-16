@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -35,6 +36,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
+
+                        <sec:authorize access="isRememberMe()">
+                            <h1># 用户通过 "Remember Me Cookies" 登录.</h1>
+                        </sec:authorize>
+
+                        <sec:authorize access="isFullyAuthenticated()">
+                            <h1># 用户通过 username / password 登录.</h1>
+                        </sec:authorize>
+
                         <h1 class="text-primary">欢迎来到 Shine Jaie 个人网站
                             <small class="text-danger">孙子兵法 始计篇</small>
                         </h1>
