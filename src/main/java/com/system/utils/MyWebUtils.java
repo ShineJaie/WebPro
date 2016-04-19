@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -28,6 +29,13 @@ public class MyWebUtils implements ApplicationContextAware {
      * Spring 上下文
      */
     public static ApplicationContext appContext = null;
+
+    /**
+     * 单个的 jedis 实例不是线程安全,<br/>
+     * 使用 JedisPool, 这是一个线程安全的网络连接池, 可以将其存贮为一个静态的.<br/>
+     * 当 jedis 无法从连接池获取连接时, 它将会断开并且关闭 jedis.
+     */
+    public static JedisPool jedisPool = null;
 
     public ApplicationContext getAppContext() {
         return appContext;
@@ -145,6 +153,7 @@ public class MyWebUtils implements ApplicationContextAware {
      *
      * @return jedis
      */
+    @Deprecated
     public static Jedis newJedis() {
         return new Jedis("localhost", 6379);
     }

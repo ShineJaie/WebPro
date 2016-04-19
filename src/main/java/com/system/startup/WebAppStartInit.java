@@ -1,7 +1,10 @@
 package com.system.startup;
 
 import com.system.utils.MyFileUtils;
+import com.system.utils.MyWebUtils;
 import org.apache.log4j.Logger;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -24,6 +27,11 @@ public class WebAppStartInit implements ServletContextListener {
 
         String msg = "---> Webapp starting ...";
         logger.info(msg);
+
+        // 初始化 jedis 连接池
+        String ip = "localhost";
+        MyWebUtils.jedisPool = new JedisPool(new JedisPoolConfig(), ip);
+        logger.info("---> 初始化 jedis 连接池");
     }
 
     /**
@@ -35,5 +43,7 @@ public class WebAppStartInit implements ServletContextListener {
         String msg = "---> Webapp stoping ...";
         logger.info(msg);
 
+        MyWebUtils.jedisPool.destroy();
+        logger.info("---> 销毁 jedis 连接池");
     }
 }
