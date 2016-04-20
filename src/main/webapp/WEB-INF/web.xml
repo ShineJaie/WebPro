@@ -26,7 +26,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- spring 需要加载的文件 -->
+    <!-- spring 需要加载的配置文件路径 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -34,7 +34,7 @@
         </param-value>
     </context-param>
 
-    <!-- 然后接着是SpringSecurity必须的filter 优先配置, 让SpringSecurity先加载, 防止SpringSecurity拦截失效  -->
+    <!-- 然后接着是 SpringSecurity 必须的 filter 优先配置, 让 SpringSecurity 先加载, 防止 SpringSecurity 拦截失效  -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -44,6 +44,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- Spring 监听 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

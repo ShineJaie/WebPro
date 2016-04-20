@@ -20,6 +20,7 @@
         <springsecurity.version>3.2.9.RELEASE</springsecurity.version>
         <servlet.version>3.1.0</servlet.version>
         <jedis.version>2.8.0</jedis.version>
+        <quartz.version>2.2.1</quartz.version>
     </properties>
 
     <dependencies>
@@ -124,12 +125,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
             <version>${springframework.version}</version>
         </dependency>
 
@@ -285,6 +280,20 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.38</version>
+        </dependency>
+
+        <!-- Transaction dependency is required with Quartz integration -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+
+        <!-- Quartz framework -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
         </dependency>
 
     </dependencies>
