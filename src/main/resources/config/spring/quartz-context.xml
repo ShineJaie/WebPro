@@ -55,15 +55,15 @@
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="jobDetails">
             <list>
-                <ref bean="simpleJobDetail"/>
-                <ref bean="complexJobDetail"/>
+                <!--<ref bean="simpleJobDetail"/>-->
+                <!--<ref bean="complexJobDetail"/>-->
             </list>
         </property>
 
         <property name="triggers">
             <list>
                 <!--<ref bean="simpleTrigger"/>-->
-                <ref bean="cronTrigger"/>
+                <!--<ref bean="cronTrigger"/>-->
             </list>
         </property>
 
@@ -75,9 +75,9 @@
         </property>
 
         <!-- 初始化之后延迟10秒启动 scheduler -->
-        <!--<property name="startupDelay">
+        <property name="startupDelay">
             <value>10</value>
-        </property>-->
+        </property>
 
     </bean>
 
