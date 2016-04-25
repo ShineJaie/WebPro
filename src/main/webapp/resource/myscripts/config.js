@@ -70,7 +70,7 @@ define(['jquery', 'bootstrap'], function ($, bootstrap) {
                     document.write(htmlText);
                     document.close();
 
-                    window.history.pushState(null, null, "/WebPro/500");
+                    window.history.pushState(null, "", "/WebPro/500");
                     //window.location.href = url;
                 },
                 404: function (jqXHR) {
@@ -78,7 +78,7 @@ define(['jquery', 'bootstrap'], function ($, bootstrap) {
                     document.write(htmlText);
                     document.close();
 
-                    window.history.pushState(null, null, "/WebPro/404");
+                    window.history.pushState(null, "", "/WebPro/404");
                     //window.location.href = url;
                 },
                 499: function () {
