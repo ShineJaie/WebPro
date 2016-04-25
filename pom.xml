@@ -296,7 +296,37 @@
             <version>${quartz.version}</version>
         </dependency>
 
+        <!-- MongoDB Java Driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
     </dependencies>
+
+    <!-- 设定主仓库，按设定顺序进行查找。 -->
+    <repositories>
+        <!-- 如有 Nexus 私服, 取消注释并指向正确的服务器地址.
+        <repository> <id>nexus-repos</id>
+        <name>Team Nexus Repository</name>
+        <url>http://127.0.0.1:8888/nexus/content/groups/public</url> </repository> -->
+
+        <!-- 开源中国 maven仓库  -->
+        <repository>
+            <id>oschina-repos</id>
+            <name>Oschina Releases</name>
+            <url>http://maven.oschina.net/content/groups/public</url>
+        </repository>
+
+        <!-- 官方 Maven 中央仓库 -->
+        <repository>
+            <id>Maven-repos</id>
+            <name>Maven Releases</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+
+    </repositories>
 
     <build>
         <pluginManagement>
