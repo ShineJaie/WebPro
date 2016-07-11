@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <context:component-scan base-package="com.view.test.quartz"/>
+    <context:component-scan base-package="com.web.test.quartz"/>
 
     <!-- 任务类不需要继承任何父类, 也不需要实现任何接口, 只是一个普通的 java 类 -->
     <!-- For times when you just need to invoke a method on a specific object -->
@@ -20,7 +20,7 @@
     <!-- For times when you need more complex processing, passing data to the scheduled job -->
     <bean name="complexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <!-- 目标类 -->
-        <property name="jobClass" value="com.view.test.quartz.ScheduledJob"/>
+        <property name="jobClass" value="com.web.test.quartz.ScheduledJob"/>
         <property name="jobDataMap">
             <map>
                 <entry key="anotherBean" value-ref="anotherBean"/>

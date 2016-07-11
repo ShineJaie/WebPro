@@ -18,6 +18,7 @@
         <!-- 就近原则, 系统将使用第一个符合条件的intercept-url进行权限控制 -->
         <intercept-url pattern="/" access="permitAll"/>
         <!-- 任何用户都可以访问 -->
+        <intercept-url pattern="/test/changepwd" access="permitAll"/>
         <intercept-url pattern="/logout" access="permitAll"/>
         <intercept-url pattern="/admin**/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>

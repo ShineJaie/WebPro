@@ -2,13 +2,13 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="E:/WorkSpace/IntellijIDEA/WebPro/target/classes">
+		<dir name="/home/wxj/IdeaProjects/WebPro/classes/production/WebPro">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="E:/WorkSpace/IntellijIDEA/WebPro/src/main/webapp">
+			<dir name="/home/wxj/IdeaProjects/WebPro/src/main/webapp">
 			</dir>
 		</link>
 	</web>
